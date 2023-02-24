@@ -1,0 +1,2 @@
+# OpenBSD
+OpenBSD configs
