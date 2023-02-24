@@ -2,6 +2,8 @@
 
 rm /etc/ssh/ssh_host_*key*  
 ssh-keygen -o -a 512 -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N “” -Z chacha20-poly1305@openssh.com -E sha256  
+vi /etc/rc  
+:g/ssh-keygen -A//s/#ssh-keygen -A/g 
 
 #OpenIKED keys
 
@@ -9,9 +11,6 @@ rm /etc/isakmpd/private/local.key
 rm /etc/isakmpd/local.pub
 rm /etc/iked/private/local.key
 rm /etc/iked/local.pub
-
-vi /etc/rc  
-:g/ssh-keygen -A//s/#ssh-keygen -A/g  
 
 :g/ //s/openssl ecparam -genkey -name id-tc26-gost-3410-12-512-paramSetC -out/g
 
