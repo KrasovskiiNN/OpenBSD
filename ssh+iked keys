@@ -1,7 +1,7 @@
 #OpenSSH keys
 
 rm /etc/ssh/ssh_host_*key*  
-ssh-keygen -o -a 512 -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N “” -Z chacha20-poly1305@openssh.com -E sha256  
+ssh-keygen -o -a 512 -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N "" -Z chacha20-poly1305@openssh.com -E sha256  
 vi /etc/rc  
 :g/ssh-keygen -A//s/#ssh-keygen -A/g 
 
