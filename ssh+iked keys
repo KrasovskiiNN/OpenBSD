@@ -12,6 +12,7 @@ rm /etc/isakmpd/local.pub
 rm /etc/iked/private/local.key
 rm /etc/iked/local.pub
 
-:g/ //s/openssl ecparam -genkey -name id-tc26-gost-3410-12-512-paramSetC -out/g
+openssl ecparam -genkey -name id-tc26-gost-3410-12-512-paramSetC -out
+
 
 reboot
