@@ -1,0 +1,54 @@
+DOWNLOAD
+1) Download ISO/IMG file openbsdXX.
+  https://cdn.openbsd.org/pub/OpenBSD/7.4/amd64/install74.img
+2) Download sys.tar.gz, src.tar.gz, ports.tar.gz, xenocara.tar.gz
+  https://ftp.openbsd.org/pub/OpenBSD/7.4/sys.tar.gz
+  https://ftp.openbsd.org/pub/OpenBSD/7.4/src.tar.gz
+  https://ftp.openbsd.org/pub/OpenBSD/7.4/ports.tar.gz
+  https://ftp.openbsd.org/pub/OpenBSD/7.4/xenocara.tar.gz
+3) Download patches XX.tar.gz
+  https://ftp.openbsd.org/pub/OpenBSD/patches/7.4.tar.gz
+4) Download openssh-YY.tar.gz
+  https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/openssh-9.6.tar.gz
+
+INSTALL
+1) / и swap разделы. Swap = [ RAM*2 - 16GB ]
+
+UPDATE (Release -> Stable)
+1) SRC-files
+  tar xzvf .../sys.tar.gz -C /usr/src
+  tar xzvf .../src.tar.gz -C /usr/src
+  tar xzvf .../ports.tar.gz -C /usr
+  mkdir /usr/xenocara
+  tar xzvf .../xenocara.tar.gz -C /usr/xenocara
+2) Patches
+  tar .../7.4.tar.gz -C /tmp
+  cd /tmp/7.4/common
+  signify -Vep /etc/signify/openbsd-74-base.pub -c 001_ -m - | (cd /usr/src && patch -p0)
+ 
+Пересборка ядра ( $(machine)&$KK : #uname -pv)
+  # cd /sys/arch/$(machine)/compile/$KK
+  # make obj
+  # make config
+  # make && make install
+  # reboot
+Пересборка пользовательского окружения
+  # rm -rf /usr/obj/*
+  # cd /usr/src
+  # make obj && make build
+
+3) OpenSSH
+  # cd /usr/src/usr.bin
+  # tar xzvf .../openssh-9.6.tar.gz
+  # cd ssh
+  # make obj
+  # make cleandir
+  # make depend
+  # make
+  # make install
+
+  rcctl stop sshd
+  rm /etc/ssh/ssh_host*key*
+  ssh-keygen -o -a 512 -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N "" -Z chacha20-poly1305@openssh.com -E sha256
+  rcctl start sshd
+  
